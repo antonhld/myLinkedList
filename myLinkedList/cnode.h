@@ -8,7 +8,7 @@ class CNode
     CNode* previous_;
     CNode* next_;
 public:
-    explicit CNode();
+    CNode();
 
     const T& data() const;
     void setData(const T &data);

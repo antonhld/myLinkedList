@@ -18,4 +18,7 @@ SOURCES += main.cpp
 
 HEADERS += \
     cnode.h \
-    cmylist.h
+    cmylist.h \
+    cstack.h \
+    cqueue.h \
+    cpriorityqueue.h

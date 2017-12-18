@@ -10,7 +10,8 @@ class CMyList
     CNode<T>* last_;
     int size_;
 public:
-    explicit CMyList();
+    CMyList();
+    ~CMyList();
     void pushFront(const T& value);
     void pushBack(const T& value);
     void insertAfter(int position, const T& value);
@@ -21,8 +22,7 @@ public:
     int getSize() const;
     void deleteAt(int position);
     void clear();
-    const T operator [](int index);
-
+    CMyList& operator =(const CMyList& otherList);
 };
 
 template<class T>
@@ -31,6 +31,12 @@ CMyList<T>::CMyList() : first_(nullptr),
                         size_(0)
 {
 
+}
+
+template<class T>
+CMyList<T>::~CMyList()
+{
+    this->clear();
 }
 
 template<class T>
@@ -68,6 +74,12 @@ void CMyList<T>::insertAfter(int position, const T& value)
 {
     if(position >= size_)
         return;
+    else if(position == 0)
+    {
+        pushFront(value);
+        return;
+    }
+
     CNode<T>* temp = new CNode<T>;
     CNode<T>* iter = first_;
     temp->setData(value);
@@ -82,7 +94,6 @@ void CMyList<T>::insertAfter(int position, const T& value)
     else
     {
         temp->setNext(iter->next());
-       // iter->next()->setPrevious(temp);
         temp->next()->setPrevious(temp);
         iter->setNext(temp);
         temp->setPrevious(iter);
@@ -180,9 +191,16 @@ void CMyList<T>::clear()
 }
 
 template<class T>
-const T CMyList<T>::operator [](int index)
+CMyList<T>& CMyList<T>::operator =(const CMyList& otherList)
 {
-    return T(atPos(index));
+    this->clear();
+    CNode<T>* temp = otherList.first_;
+    while (temp != nullptr)
+    {
+        this->pushBack(temp->data());
+        temp = temp->next_;
+    }
+
 }
 
 #endif // CMYLIST_H
